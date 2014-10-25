@@ -85,7 +85,7 @@ All ajax loaded modules, it excepts all main modules, have some known variables 
 Embedded modules :
 ------------------
 
-<b>url :</b> <a href="./url.md">url.md</a>
+<b>url :</b> <a href="./url.md#url">url.md</a>
 
 <b>ajax :</b>
 // documentation coming soon

@@ -38,7 +38,7 @@ Where do I need to put my modules files ?
 By default, when easy-require consider its own directory as the <abbr title="current working directory">cwd</abbr> but You can target an another on the dependency url declaration, such as a cross-domain url.
 
 
-Do I rewrite my dependencies url in my minified modules ?
+Do I rewrite my dependencies urls in my minified modules ?
 ---------------------------------------------------------
 
 No! The internal dependency url resolution is based on the easy-require extension.

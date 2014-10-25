@@ -7,7 +7,7 @@ An embedded url package that offer, for this V1.0.0, a simple method : resolve
 Usage :
 -------
 
-<b>NOTE : the commented lines are only interpretables in a loaded module, see <a href="./readme.md#module-vars">readme.md#module-vars</a></b>
+<b>NOTE : the commented lines are only interpretables in an ajax loaded module, see <a href="./readme.md#module-vars">readme.md#module-vars</a></b>
 
 ```JavaScript
 require(['url'], function define(url) {

@@ -62,6 +62,7 @@ require(
     ['dependency0', 'dependency1', '...'],
     function define(dependency0, dependency1 /*, ...*/) {
         // your module definition here
+        module.exports = {};
     }
 );
 ```

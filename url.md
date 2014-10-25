@@ -1,0 +1,30 @@
+easy-require embedded url module
+================================
+
+An embedded url package that offer, for this V1.0.0, a simple method : resolve
+
+
+Usage :
+-------
+
+<b>NOTE : the commented lines are only interpretables in a loaded module, see <a name="./readme.md#module-vars"</b>
+
+```JavaScript
+require(['url'], function define(url) {
+    var resolve;
+    
+    resolve = url.resolve;
+    
+    console.log(resolve());
+    console.log(resolve('/'));
+    console.log(resolve('./'));
+    console.log(resolve('../'));
+    //console.log(resolve(__dirname));
+    //console.log(resolve(__filename));
+    //console.log(resolve(__dirname, 'test', './'/*, ... */));
+    console.log(resolve('http://www.google.be', 'test', '../'));
+    console.log(resolve('https://www.google.be', 'test', '../'));
+    console.log(resolve('ftp://www.google.be', 'test', '../'));
+    console.log(resolve('//www.google.be', 'test', '../'));
+});
+```

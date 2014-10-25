@@ -50,8 +50,8 @@ If You loaded easy-require.js<br />
 `example/test.js` loads `/js/sources/example/test.js`
 
 If You loaded easy-require.min.js<br />
-`example` loads `/js/sources/example/index.min.js`<br />
-`example/test.js` loads `/js/sources/example/test.min.js`<br />
+`example` loads `/js/min/example/index.min.js`<br />
+`example/test.js` loads `/js/min/example/test.min.js`<br />
 
 
 Usage :

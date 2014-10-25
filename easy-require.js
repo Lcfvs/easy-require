@@ -5,6 +5,7 @@ require = function (global) {
 
     var env,
         modules,
+        url,
         Module,
         require;
 
@@ -44,12 +45,145 @@ require = function (global) {
     env = {};
     modules = {};
 
+    url = (function () {
+        var absolutePattern,
+            trailings1Pattern,
+            trailings2Pattern,
+            trailings3Pattern,
+            rootPattern,
+            parentsPattern,
+            currentPattern,
+            resolve,
+            clean,
+            concat,
+            parseHost,
+            isSegment,
+            isAbsolute,
+            removeTraillingSlashes;
+
+        absolutePattern = /^(\w+:)?\/\//;
+        trailings1Pattern = /([^/][^:])\/+/g;
+        trailings2Pattern = /^(\/\/)\/+(.*)(\/+)?/;
+        trailings3Pattern = /(\/)+$/;
+        rootPattern = /^([^/]*\/\/[^/]+).*/;
+        parentsPattern = /\/[^/]+\/\.\./g;
+        currentPattern = /\/\./g;
+
+        resolve = function resolve() {
+            var segments;
+
+            segments = Array.prototype.slice.call(arguments);
+
+            if (!arguments.length) {
+                return env.cwd;
+            }
+
+            return concat(parseHost(clean(segments)));
+        }
+
+        clean = function clean(segments) {
+            var iterator,
+                length,
+                segment;
+
+            iterator = 0;
+            length = segments.length;
+
+            for (; iterator < segments.length; iterator += 1) {
+                segment = segments[iterator];
+
+                if (!isSegment(segment)) {
+                    segments.splice(iterator, 1);
+
+                    continue;
+                }
+
+                segment = removeTraillingSlashes(segment);
+                segments[iterator] = segment;
+            }
+
+            return segments;
+        };
+
+        parseHost = function parseHost(segments) {
+            var iterator,
+                segment;
+
+            iterator = segments.length - 1;
+
+            for (; iterator > -1; iterator -= 1) {
+                segment = segments[iterator];
+
+                if (isAbsolute(segment)) {
+                    segments.splice(0, iterator);
+
+                    break;
+                }
+            }
+
+            if (iterator === -1) {
+                segments.unshift(env.cwd);
+            }
+
+            return segments;
+        };
+
+        concat = function concat(segments) {
+            var result,
+                iterator,
+                length,
+                segment;
+
+            result = segments[0];
+            iterator = 1;
+            length = segments.length;
+
+            for (; iterator < length; iterator += 1) {
+                segment = segments[iterator];
+
+                if (segment.charAt(0) !== '/') {
+                    result = result.concat('/', segment);
+
+                    continue;
+                }
+
+                result = result.replace(rootPattern, '$1'.concat(segment));
+            }
+
+            return result.replace(parentsPattern, '')
+                .replace(currentPattern, '');
+        };
+
+        isSegment = function isSegment(segment) {
+            if (typeof segment !== 'string') {
+                throw new TypeError('Arguments to url.resolve must be strings');
+            }
+
+            return !!segment;
+        };
+
+        isAbsolute = function isAbsolute(segment) {
+            return absolutePattern.test(segment);
+        };
+
+        removeTraillingSlashes = function removeTraillingSlashes(segment) {
+            return segment.replace(trailings1Pattern, '$1/')
+                .replace(trailings2Pattern, '$1$2')
+                .replace(trailings3Pattern, '');
+        };
+
+        return {
+            resolve: resolve
+        };
+    }());
+
     void function detectCwd() {
         var iterator,
             scripts,
             length,
             requirePattern,
-            matches;
+            matches,
+            cwd;
 
         iterator = 0;
         scripts = document.getElementsByTagName('script');
@@ -57,14 +191,22 @@ require = function (global) {
         requirePattern = /(.*)\/(?:easy-require)((?:\.min)?\.js$)/;
 
         for (; iterator < length; iterator += 1) {
-            matches = scripts[iterator].src.match(requirePattern);
+            matches = scripts[iterator]
+                .getAttribute('src')
+                .match(requirePattern);
 
             if (matches && matches.length === 3) {
                 break;
             }
         }
 
-        env.cwd = matches[1].substr(0, matches[1].length);
+        cwd = matches[1];
+
+        if (cwd.indexOf('//') === -1) {
+            cwd = url.resolve('//'.concat(window.location.host), cwd);
+        }
+
+        env.cwd = cwd;
         env.extension = matches[2];
     }();
 
@@ -271,12 +413,12 @@ require = function (global) {
                 resolved,
                 url;
 
-            if (filename === 'ajax' || filename === 'path') {
+            if (filename === 'ajax' || filename === 'url') {
                 return filename;
             }
 
             extension = env.extension;
-            resolve = modules.path.module.exports.resolve;
+            resolve = modules.url.module.exports.resolve;
 
             if (filename.charAt(0) === '.') {
                 resolved = resolve(dirname, filename);
@@ -297,8 +439,7 @@ require = function (global) {
     }());
 
     void function defineEmbeddedModules() {
-        var ajax,
-            path;
+        var ajax;
 
         modules.ajax =
         ajax = new Module('ajax');
@@ -482,149 +623,18 @@ require = function (global) {
 
         ajax.status = Module.MODULE_DEFINED;
 
-        modules.path =
-        path = new Module('path');
+        modules.url = new Module('url');
 
-        path.module.exports = (function () {
-            var absolutePattern,
-                trailings1Pattern,
-                trailings2Pattern,
-                trailings3Pattern,
-                rootPattern,
-                parentsPattern,
-                currentPattern,
-                resolve,
-                clean,
-                parseHost,
-                isSegment,
-                isAbsolute,
-                removeTraillingSlashes,
-                concat;
+        modules.url.module.exports = url;
 
-            absolutePattern = /^(\w+:)?\/\//;
-            trailings1Pattern = /([^/][^:])\/+/g;
-            trailings2Pattern = /^(\/\/)\/+(.*)(\/+)?/;
-            trailings3Pattern = /(\/)+$/;
-            rootPattern = /^([^/]*\/\/[^/]+).*/;
-            parentsPattern = /\/[^/]+\/\.\./g;
-            currentPattern = /\/\./g;
-
-            resolve = function resolve() {
-                var segments;
-
-                segments = Array.prototype.slice.call(arguments);
-
-                if (!arguments.length) {
-                    return env.cwd;
-                }
-
-                return concat(parseHost(clean(segments)));
-            }
-
-            clean = function clean(segments) {
-                var iterator,
-                    length,
-                    segment;
-
-                iterator = 0;
-                length = segments.length;
-
-                for (; iterator < segments.length; iterator += 1) {
-                    segment = segments[iterator];
-
-                    if (!isSegment(segment)) {
-                        segments.splice(iterator, 1);
-
-                        continue;
-                    }
-
-                    segment = removeTraillingSlashes(segment);
-                    segments[iterator] = segment;
-                }
-
-                return segments;
-            };
-
-            parseHost = function parseHost(segments) {
-                var iterator,
-                    segment;
-
-                iterator = segments.length - 1;
-
-                for (; iterator > -1; iterator -= 1) {
-                    segment = segments[iterator];
-
-                    if (isAbsolute(segment)) {
-                        segments.splice(0, iterator);
-
-                        break;
-                    }
-                }
-
-                if (iterator === -1) {
-                    segments.unshift(env.cwd);
-                }
-
-                return segments;
-            };
-
-            isSegment = function isSegment(segment) {
-                if (typeof segment !== 'string') {
-                    throw new TypeError('Arguments to url.resolve must be strings');
-                }
-
-                return !!segment;
-            };
-
-            isAbsolute = function isAbsolute(segment) {
-                return absolutePattern.test(segment);
-            };
-
-            removeTraillingSlashes = function removeTraillingSlashes(segment) {
-                return segment.replace(trailings1Pattern, '$1/')
-                    .replace(trailings2Pattern, '$1$2')
-                    .replace(trailings3Pattern, '');
-            };
-
-            concat = function concat(segments) {
-                var result,
-                    iterator,
-                    length,
-                    segment;
-
-                result = segments[0];
-                iterator = 1;
-                length = segments.length;
-
-                for (; iterator < length; iterator += 1) {
-                    segment = segments[iterator];
-
-                    if (segment.charAt(0) !== '/') {
-                        result = result.concat('/', segment);
-
-                        continue;
-                    }
-
-                    result = result.replace(rootPattern, '$1'.concat(segment));
-                }
-
-                return result.replace(parentsPattern, '')
-                    .replace(currentPattern, '');
-            };
-
-            return {
-                resolve: resolve
-            };
-        }());
-
-        path.status = Module.MODULE_DEFINED;
+        modules.url.status = Module.MODULE_DEFINED;
     }();
 
     require = function require(dependencies, define) {
         var instance,
             deferred;
 
-        instance = new Module(env.cwd);instance.id=123;
+        instance = new Module(env.cwd);
         deferred = instance.require.bind(instance, dependencies, define);
         setTimeout(deferred);
     };

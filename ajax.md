@@ -26,11 +26,11 @@ require(['ajax'], function define(ajax) {
 Modes :
 ------------
 
-<b>ajax.ENQUEUE :</b> [DEFAULT] It's a semi-asynchronous mode, it creates a requests queue and resolves once a time, waiting for each the response of the previous.
-Additionally, it retry to send a failed request, periodically and it calls the onload method on success, if any.
+<b>ajax.ENQUEUE :</b> [DEFAULT] It's a semi-asynchronous mode, it creates a requests queue and resolves once a time, &nbsp;&nbsp;&nbsp;&nbsp;waiting for each the response of the previous.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Additionally, it retry to send a failed request, periodically and it calls the onload method on success, if any.
 
-<b>ajax.ASYNC :</b>  It's an asynchronous mode, it send a request as soon as possible.
-Additionally, it calls the onload method on success, if any.
+<b>ajax.ASYNC :</b>  It's an asynchronous mode, it send a request as soon as possible.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Additionally, it calls the onload method on success, if any.
 
 <b>ajax.SYNC :</b>  It's a synchronous mode, it send a request and wait the response.
 
@@ -45,5 +45,5 @@ Request options :
 <b>onload :</b> The request callback<br />
 <b>delay :</b> The semi-asynchrounous request delay to retry to send it on failure (default: 1000ms)<br />
 <b>headers :</b> The request headers, is an object that contains your headers<br />
-    by default, all requests have a HTTP_X_REQUESTED_WITH header to 'xmlhttprequest'<br />
-    and all non-GET requests have a Content-Type header to 'application/x-www-form-urlencoded'
+&nbsp;&nbsp;&nbsp;&nbsp;by default, all requests have a HTTP_X_REQUESTED_WITH header to 'xmlhttprequest'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;and all non-GET requests have a Content-Type header to 'application/x-www-form-urlencoded'

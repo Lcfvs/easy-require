@@ -447,16 +447,16 @@ require = function (global) {
         ajax.module.exports = (function() {
             var queue,
                 ajax,
-                parseOptions;
+                parseRequest;
 
             queue = [];
 
-            ajax = function ajax(options) {
+            ajax = function ajax(request) {
                 var xhr;
 
                 xhr = new XMLHttpRequest();
 
-                parseOptions(xhr, options);
+                parseRequest(xhr, request);
 
                 xhr.onreadystatechange = function onreadystatechange() {
                     var onload;
@@ -575,34 +575,34 @@ require = function (global) {
             ajax.ASYNC = 1;
             ajax.SYNC = 2;
 
-            parseOptions = function parseOptions(xhr, options) {
+            parseRequest = function parseRequest(xhr, request) {
                 var mode;
 
-                xhr.url = options.url;
+                xhr.url = request.url;
 
                 xhr.mode =
-                mode = ~~options.mode % 3;
+                mode = ~~request.mode % 3;
 
                 xhr.async = mode < ajax.SYNC;
 
-                xhr.data = options.hasOwnProperty('data')
-                    ? options.data
+                xhr.data = request.hasOwnProperty('data')
+                    ? request.data
                     : null;
 
-                xhr.method = options.hasOwnProperty('method')
-                    ? options.method
+                xhr.method = request.hasOwnProperty('method')
+                    ? request.method
                     : 'GET';
 
-                xhr.onload = typeof options.onload === 'function'
-                    ? options.onload
+                xhr.onload = typeof request.onload === 'function'
+                    ? request.onload
                     : null;
 
-                xhr.delay = options.hasOwnProperty('delay')
-                    ? options.delay
+                xhr.delay = request.hasOwnProperty('delay')
+                    ? request.delay
                     : 1000;
 
-                xhr.headers = options.hasOwnProperty('headers')
-                    ? options.headers
+                xhr.headers = request.hasOwnProperty('headers')
+                    ? request.headers
                     : [];
 
                 xhr.headers.push({

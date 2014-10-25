@@ -11,7 +11,7 @@ Many loaders exist today but nothing that works like as I like...
 
 Some are really too heavy, others, lighter, doesn't have the features I was looking for such as :
 - an intelligent system to load my modules minified (production mode) or not (development mode)
-- an ability to load some cross-domain modules
+- an ability to load some cross-domain modules (on d/recent browsers)
 
 
 Include easy-require in your web page :
@@ -19,7 +19,7 @@ Include easy-require in your web page :
 
 Add a script element to your web page.
 
-For this example, I assume that I have two folders containing my modules /js/sources & /js/min, it's only an example, use the names You want.
+For this example, I assume that I have two folders containing my modules `/js/sources` & `/js/min`, it's only an example, use the names You want.
 
 <b>development mode :</b>
 ```HTML

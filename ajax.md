@@ -1,4 +1,4 @@
-easy-require embedded ajax module
+easy-require embedded ajax module<a name="ajax"></a>
 =================================
 
 An embedded ajax package

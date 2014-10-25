@@ -45,13 +45,13 @@ No! The internal dependency url resolution is based on the easy-require extensio
 
 For an "example" module :
 
-If You loaded easy-require.js
-`example` loads `/js/sources/example/index.js`
+If You loaded easy-require.js<br />
+`example` loads `/js/sources/example/index.js`<br />
 `example/test.js` loads `/js/sources/example/test.js`
 
-If You loaded easy-require.min.js
-`example` loads `/js/sources/example/index.min.js`
-`example/test.js` loads `/js/sources/example/test.min.js`
+If You loaded easy-require.min.js<br />
+`example` loads `/js/sources/example/index.min.js`<br />
+`example/test.js` loads `/js/sources/example/test.min.js`<br />
 
 
 Usage :

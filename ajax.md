@@ -38,12 +38,12 @@ Additionally, it calls the onload method on success, if any.
 Request options :
 -----------------
 
-<b>url :</b> [REQUIRED] The request url
-<b>data :</b> The request data (default: null)
-<b>method :</b> The request method (default: 'GET')
-<b>mode :</b> The request (a)synchronous mode (default : ajax.ENQUEUE)
-<b>onload :</b> The request callback
-<b>delay :</b> The semi-asynchrounous request delay to retry to send it on failure (default: 1000ms)
-<b>headers :</b> The request headers, is an object that contains your headers
-    by default, all requests have a HTTP_X_REQUESTED_WITH header to 'xmlhttprequest'
+<b>url :</b> [REQUIRED] The request url<br />
+<b>data :</b> The request data (default: null)<br />
+<b>method :</b> The request method (default: 'GET')<br />
+<b>mode :</b> The request (a)synchronous mode (default : ajax.ENQUEUE)<br />
+<b>onload :</b> The request callback<br />
+<b>delay :</b> The semi-asynchrounous request delay to retry to send it on failure (default: 1000ms)<br />
+<b>headers :</b> The request headers, is an object that contains your headers<br />
+    by default, all requests have a HTTP_X_REQUESTED_WITH header to 'xmlhttprequest'<br />
     and all non-GET requests have a Content-Type header to 'application/x-www-form-urlencoded'

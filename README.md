@@ -71,8 +71,7 @@ require(
 Embedded modules :
 ------------------
 
-<b>url :</b>
-url is an object module that has a resolve method, You can pass any number of url strings and it returns a resolved url
+<b>url :</b> <a name="./url.md"></a>
 
 <b>ajax :</b>
 // documentation coming soon

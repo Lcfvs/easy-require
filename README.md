@@ -75,4 +75,4 @@ Embedded modules :
 path is an object module that has a resolve method, You can pass any number of url strings and it returns a resolved url
 
 <b>ajax :</b>
-// coming soon
+// documentation coming soon

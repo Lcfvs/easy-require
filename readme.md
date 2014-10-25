@@ -68,7 +68,7 @@ require(
 ```
 
 
-[link text](#module-vars)Module vars :
+[Module vars](#module-vars) :
 -------------
 
 All ajax loaded modules, it excepts all main modules, have some known variables :

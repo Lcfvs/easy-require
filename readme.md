@@ -87,5 +87,4 @@ Embedded modules :
 
 <b>url :</b> <a href="./url.md#url">url.md</a>
 
-<b>ajax :</b>
-// documentation coming soon
+<b>ajax :</b> <a href="./ajax.md#ajax">ajax.md</a>

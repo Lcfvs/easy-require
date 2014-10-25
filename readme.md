@@ -68,6 +68,20 @@ require(
 ```
 
 
+Module vars :
+-------------
+
+All ajax loaded modules, it excepts all main modules, have some known variables :
+
+<b>global :</b> aliases the current window
+<b>module :</b> is a reference to the object representing the current module
+<b>exports :</b> the container to export your module definition
+<b>require :</b> the method to require some dependencies
+<b>__dirname :</b> the directory name of the current module
+<b>__filename :</b> the file name of the current module
+
+
+
 Embedded modules :
 ------------------
 

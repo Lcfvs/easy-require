@@ -491,7 +491,7 @@ require = function (global) {
                         data,
                         isGet,
                         url,
-                        header;
+                        name;
 
                     iterator = 0;
                     method = xhr.method;
@@ -517,10 +517,10 @@ require = function (global) {
                         return;
                     }
 
-                    for (;iterator < length;iterator += 1) {
-                        header = headers[iterator];
-
-                        xhr.setRequestHeader(header.name, header.value);
+                    for (name in headers) {
+                        if (headers.hasOwnProperty(name)) {
+                            xhr.setRequestHeader(name, headers[name]);
+                        }
                     }
 
                     xhr.send(data === undefined
@@ -601,20 +601,14 @@ require = function (global) {
                     ? request.delay
                     : 1000;
 
-                xhr.headers = request.hasOwnProperty('headers')
-                    ? request.headers
-                    : [];
+                xhr.headers = options.hasOwnProperty('headers')
+                    ? options.headers
+                    : {};
 
-                xhr.headers.push({
-                    name: 'HTTP_X_REQUESTED_WITH',
-                    value: 'xmlhttprequest'
-                });
+                xhr.headers['HTTP_X_REQUESTED_WITH'] = 'xmlhttprequest';
 
                 if (xhr.method !== 'GET') {
-                    xhr.headers.push({
-                        name: 'Content-Type',
-                        value: 'application/x-www-form-urlencoded'
-                    });
+                    xhr.headers['Content-Type'] = 'application/x-www-form-urlencoded';
                 }
             };
 

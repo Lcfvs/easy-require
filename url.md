@@ -1,4 +1,4 @@
-easy-require embedded url module
+easy-require embedded url module<a name="url"><a>
 ================================
 
 An embedded url package that offer, for this V1.0.0, a simple method : resolve

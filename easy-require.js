@@ -192,8 +192,7 @@ require = function (global) {
         requirePattern = /(.*)\/(?:easy-require)((?:\.min)?\.js$)/;
 
         for (; iterator < length; iterator += 1) {
-            matches = scripts[iterator]
-                .getAttribute('src')
+            matches = scripts[iterator].src
                 .match(requirePattern);
 
             if (matches && matches.length === 3) {

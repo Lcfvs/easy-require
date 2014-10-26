@@ -1,5 +1,5 @@
-require(['./sub'], function () {
-    console.log('/test module loaded');
+require(['./sub.js'], function () {
+    console.log('/example module loaded');
     
     module.exports.dirname = __dirname;
 });

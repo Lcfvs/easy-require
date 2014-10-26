@@ -78,7 +78,8 @@ require = function (global) {
                 return env.cwd;
             }
 
-            return concat(parseHost(clean(segments)));
+            return concat(parseHost(clean(segments)))
+                .replace(trailings3Pattern, '');
         }
 
         clean = function clean(segments) {

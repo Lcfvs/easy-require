@@ -1,8 +1,8 @@
 require(
     // module dependencies
-    ['url', 'example'],
+    ['example', 'url'],
     // module definition
-    function define(url, example) {
-        console.log(url, example);
+    function define(example, url) {
+        console.log(example, url);
     }
 );

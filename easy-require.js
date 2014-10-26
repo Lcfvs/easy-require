@@ -1,3 +1,8 @@
+/*
+Copyright 2014 Lcf.vs
+Released under the MIT license
+https://github.com/Lcfvs/easy-require
+*/
 var require;
 
 require = function (global) {

@@ -19,7 +19,7 @@ Include easy-require in your web page :
 
 Add a script element to your web page.
 
-For this example, I assume that I have two folders containing my modules `/js/sources` & `/js/min`, it's only an example, use the names You want.
+For this example, I assume that I have two folders containing my modules `/js/sources` & `/js/min`, it's only an example, use the directories You want.
 
 <b>development mode :</b>
 ```HTML
@@ -35,7 +35,7 @@ For this example, I assume that I have two folders containing my modules `/js/so
 Where do I need to put my modules files ?
 -----------------------------------------
 
-By default, when easy-require consider its own directory as the <abbr title="current working directory">cwd</abbr> but You can target an another on the dependency url declaration, such as a cross-domain url.
+By default, when easy-require consider its own directory as the cwd (current working directory) but You can target an another on the dependency url declaration, such as a cross-domain url.
 
 
 Do I rewrite my dependencies urls in my minified modules ?

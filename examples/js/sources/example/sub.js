@@ -1,5 +1,5 @@
 require([], function () {
-    console.log('/test/sub module loaded');
+    console.log('/example/sub module loaded');
     
     module.exports.dirname = __dirname;
 });

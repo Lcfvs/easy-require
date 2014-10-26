@@ -65,8 +65,8 @@ require = function (global) {
         trailings1Pattern = /([^/][^:])\/+/g;
         trailings2Pattern = /^(\/\/)\/+(.*)(\/+)?/;
         trailings3Pattern = /(\/)+$/;
-        rootPattern = /^([^/]*\/\/[^/]+).*/;
-        parentsPattern = /\/[^/]+\/\.\./g;
+        rootPattern = /^((?:[^:]+:)?\/\/[^/]+)(.*)/;
+        parentsPattern = /((?:\/[^/]+)?\/\.\.)/g;
         currentPattern = /\/\./g;
 
         resolve = function resolve() {
@@ -75,7 +75,7 @@ require = function (global) {
             segments = Array.prototype.slice.call(arguments);
 
             if (!arguments.length) {
-                return env.cwd;
+                return env.root;
             }
 
             return concat(parseHost(clean(segments)))
@@ -123,7 +123,7 @@ require = function (global) {
             }
 
             if (iterator === -1) {
-                segments.unshift(env.cwd);
+                segments.unshift(env.root);
             }
 
             return segments;
@@ -133,7 +133,8 @@ require = function (global) {
             var result,
                 iterator,
                 length,
-                segment;
+                segment,
+                root;
 
             result = segments[0];
             iterator = 1;
@@ -151,8 +152,12 @@ require = function (global) {
                 result = result.replace(rootPattern, '$1'.concat(segment));
             }
 
-            return result.replace(parentsPattern, '')
-                .replace(currentPattern, '');
+            root = result.match(rootPattern)[1];
+            
+            return root.concat(
+                result.substr(root.length)
+                    .replace(parentsPattern, '')
+                ).replace(currentPattern, '');
         };
 
         isSegment = function isSegment(segment) {
@@ -183,6 +188,7 @@ require = function (global) {
             scripts,
             length,
             requirePattern,
+            location,
             matches,
             cwd;
 
@@ -190,6 +196,7 @@ require = function (global) {
         scripts = document.getElementsByTagName('script');
         length = scripts.length;
         requirePattern = /(.*)\/(?:easy-require)((?:\.min)?\.js$)/;
+        location = global.location;
 
         for (; iterator < length; iterator += 1) {
             matches = scripts[iterator].src
@@ -201,9 +208,10 @@ require = function (global) {
         }
 
         cwd = matches[1];
+        env.root = location.protocol.concat('//', location.host);
 
         if (cwd.indexOf('//') === -1) {
-            cwd = url.resolve('//'.concat(window.location.host), cwd);
+            cwd = url.resolve(env.root, cwd);
         }
 
         env.cwd = cwd;
@@ -423,7 +431,7 @@ require = function (global) {
             if (filename.charAt(0) === '.') {
                 resolved = resolve(dirname, filename);
             } else {
-                resolved = resolve(filename);
+                resolved = resolve(env.cwd, filename);
             }
 
             url = resolved.substring(resolved.length - 3) === '.js'

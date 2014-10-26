@@ -1,7 +1,7 @@
 easy-require
 ============
 
-A simple way to require, asynchronously, your JavaScript browser modules.
+A simple way to require, asynchronously, your JavaScript browser modules.<br />
 This module loader is under MIT License.
 
 

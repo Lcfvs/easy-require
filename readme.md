@@ -41,7 +41,7 @@ By default, when easy-require consider its own directory as the <abbr title="cur
 Do I rewrite my dependencies urls in my minified modules ?
 ---------------------------------------------------------
 
-No! The internal dependency url resolution is based on the easy-require extension.
+No! The internal dependency url resolution is based on the easy-require directory & extension.
 
 For an "example" module :
 

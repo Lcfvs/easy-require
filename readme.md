@@ -89,3 +89,11 @@ Embedded modules :
 <a href="./url.md#url">url.md</a>
 
 <a href="./ajax.md#ajax">ajax.md</a>
+
+
+Requirements :
+--------------
+
+This module is tested on all major browsers, IE7+.
+
+IE9+ required to load cross-domain modules

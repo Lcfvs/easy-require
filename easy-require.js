@@ -193,7 +193,7 @@ require = function (global) {
             cwd;
 
         iterator = 0;
-        scripts = document.getElementsByTagName('script');
+        scripts = global.document.getElementsByTagName('script');
         length = scripts.length;
         requirePattern = /(.*)\/(?:easy-require)((?:\.min)?\.js$)/;
         location = global.location;

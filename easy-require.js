@@ -153,7 +153,7 @@ require = function (global) {
             }
 
             root = result.match(rootPattern)[1];
-            
+
             return root.concat(
                 result.substr(root.length)
                     .replace(parentsPattern, '')
@@ -337,7 +337,10 @@ require = function (global) {
             instance = this;
             module = instance.module;
             instance.status = Module.MODULE_LOADED;
-            closure = execute(xhr.responseText);
+
+            closure = execute(
+                'void function () {'.concat(xhr.responseText, '}();')
+            );
 
             closure.call(
                 instance,
@@ -609,8 +612,8 @@ require = function (global) {
                     ? request.delay
                     : 1000;
 
-                xhr.headers = options.hasOwnProperty('headers')
-                    ? options.headers
+                xhr.headers = request.hasOwnProperty('headers')
+                    ? request.headers
                     : {};
 
                 xhr.headers['HTTP_X_REQUESTED_WITH'] = 'xmlhttprequest';

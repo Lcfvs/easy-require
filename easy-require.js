@@ -348,6 +348,7 @@ require = function (global) {
                 closure = execute(
                     'void function () {'.concat(
                         prototype.require.plugins.join(';'),
+                        ';',
                         xhr.responseText,
                         '}();'
                     )

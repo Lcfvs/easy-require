@@ -346,7 +346,12 @@ require = function (global) {
                 instance.status = Module.MODULE_LOADED;
 
                 closure = execute(
-                    'void function () {'.concat(xhr.responseText, '}();')
+                    'void function () {'.concat(
+                        prototype.require.plugins.join(';'),
+                        ';',
+                        xhr.responseText,
+                        '}();'
+                    )
                 );
 
                 closure.call(
@@ -396,6 +401,8 @@ require = function (global) {
                 instance.dependencies.push(dependency);
             }
         };
+        
+        prototype.require.plugins = [];
 
         prototype.ondependency = function ondependency() {
             var instance,
@@ -421,7 +428,10 @@ require = function (global) {
             }
 
             instance.status = Module.DEPENDENCIES_LOADED;
-            instance.define.apply({}, args);
+            
+            typeof instance.define === 'function'
+            && instance.define.apply({}, args);
+            
             instance.status = Module.MODULE_DEFINED;
             instance.dispatch();
         };
@@ -651,6 +661,8 @@ require = function (global) {
         deferred = instance.require.bind(instance, dependencies, define);
         setTimeout(deferred);
     };
+    
+    require.plugins = Module.prototype.require.plugins;
 
     return require;
 }(this);

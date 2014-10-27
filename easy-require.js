@@ -340,24 +340,25 @@ require = function (global) {
                 closure;
 
             instance = this;
-            module = instance.module;
-            instance.status = Module.MODULE_LOADED;
 
-            closure = execute(
-                'void function () {'.concat(xhr.responseText, '}();')
-            );
+            if (instance.status === Module.MODULE_LOADING) {
+                module = instance.module;
+                instance.status = Module.MODULE_LOADED;
 
-            closure.call(
-                instance,
-                global,
-                module,
-                module.exports,
-                instance.require,
-                instance.dirname,
-                instance.url
-            );
-            
-            instance.status = Module.MODULE_DEFINED;
+                closure = execute(
+                    'void function () {'.concat(xhr.responseText, '}();')
+                );
+
+                closure.call(
+                    instance,
+                    global,
+                    module,
+                    module.exports,
+                    instance.require,
+                    instance.dirname,
+                    instance.url
+                );
+            }
         };
 
         prototype.require = function require(dependencies, define) {

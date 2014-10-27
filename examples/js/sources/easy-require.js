@@ -1,3 +1,8 @@
+/*
+Copyright 2014 Lcf.vs
+Released under the MIT license
+https://github.com/Lcfvs/easy-require
+*/
 var require;
 
 require = function (global) {
@@ -351,6 +356,8 @@ require = function (global) {
                 instance.dirname,
                 instance.url
             );
+            
+            instance.status = Module.MODULE_DEFINED;
         };
 
         prototype.require = function require(dependencies, define) {

@@ -5,10 +5,10 @@ A simple way to require, asynchronously, your JavaScript browser modules.<br />
 This module loader is under MIT License.
 
 
-Why an another module loader ?
-------------------------------
+Why another module loader ?
+---------------------------
 
-Many loaders exist today but nothing that works like as I like...
+Many loaders exist today but nothing that works like the way I'd like it to...
 
 Some are really too heavy, others, lighter, doesn't have the features I was looking for such as :
 - an intelligent system to load my modules minified (production mode) or not (development mode)
@@ -36,7 +36,7 @@ For this example, I assume that I have two folders containing my modules `/js/so
 Where do I need to put my modules files ?
 -----------------------------------------
 
-By default, when easy-require consider its own directory as the cwd (current working directory) but You can target an another on the dependency url declaration, such as a cross-domain url.
+By default, when easy-require consider its own directory as the cwd (current working directory) but You can target another one by the dependency url declaration, such as a cross-domain url.
 
 
 Do I rewrite my dependencies urls in my minified modules ?

@@ -61,7 +61,7 @@ Usage :
 ```JavaScript
 require(
     ['dependency0', 'dependency1', '...'],
-    function define(dependency0, dependency1 /*, ...*/) {
+    function (dependency0, dependency1 /*, ...*/) {
         // your module definition here
         module.exports = {};
     }
@@ -98,10 +98,13 @@ The require method has a plugins property, it's an array that a plugins collecti
 
 For each ajax loaded module, the all plugins are stringified & injected in the loaded source, as a head script.
 
-It provides an easy way to make an adapter, for example.
+It provides an easy way to make an adapter, for example:
 
 ```JavaScript
-require.plugins.push(/* your plugin here */);
+// RequireJS AMD adapter
+require.plugins.push(function define() {
+    require.apply({}, arguments);
+});
 ```
 
 

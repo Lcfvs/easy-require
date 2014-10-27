@@ -356,6 +356,8 @@ require = function (global) {
                 instance.dirname,
                 instance.url
             );
+            
+            instance.status = Module.MODULE_DEFINED;
         };
 
         prototype.require = function require(dependencies, define) {

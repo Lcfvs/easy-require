@@ -91,6 +91,16 @@ Embedded modules :
 <a href="./ajax.md#ajax">ajax.md</a>
 
 
+Add a plugin :
+--------------
+
+The require method has a plugins property, it's an array that a plugins collection.
+
+For each ajax loaded module, the all plugins are stringified & injected in the loaded source, as a head script.
+
+It provides an easy way to make an adapter, for example.
+
+
 Requirements :
 --------------
 

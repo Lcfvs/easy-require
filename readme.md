@@ -100,6 +100,10 @@ For each ajax loaded module, the all plugins are stringified & injected in the l
 
 It provides an easy way to make an adapter, for example.
 
+```JavaScript
+require.plugins.push(/* your plugin here */);
+```
+
 
 Requirements :
 --------------

@@ -421,7 +421,10 @@ require = function (global) {
             }
 
             instance.status = Module.DEPENDENCIES_LOADED;
-            instance.define.apply({}, args);
+            
+            typeof instance.define === 'function'
+            && instance.define.apply({}, args);
+            
             instance.status = Module.MODULE_DEFINED;
             instance.dispatch();
         };

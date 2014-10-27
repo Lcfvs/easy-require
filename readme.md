@@ -102,8 +102,12 @@ It provides an easy way to make an adapter, for example:
 
 ```JavaScript
 // RequireJS AMD adapter
-require.plugins.push(function define() {
-    require.apply({}, arguments);
+require.plugins.push(function define(dependencies, callback) {
+    if (dependencies instanceof Array) {
+        require(dependencies, callback);
+    } else {
+        require([], callback);
+    }
 });
 ```
 

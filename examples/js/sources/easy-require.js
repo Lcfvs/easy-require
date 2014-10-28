@@ -71,7 +71,7 @@ require = function (global) {
         trailings2Pattern = /^(\/\/)\/+(.*)(\/+)?/;
         trailings3Pattern = /(\/)+$/;
         rootPattern = /^((?:[^:]+:)?\/\/[^/]+)(.*)/;
-        parentsPattern = /((?:\/[^/]+)?\/\.\.)/g;
+        parentsPattern = /((?:\/[^/\.]+)?\/\.\.)/;
         currentPattern = /\/\./g;
 
         resolve = function resolve() {
@@ -139,7 +139,8 @@ require = function (global) {
                 iterator,
                 length,
                 segment,
-                root;
+                root,
+                temp;
 
             result = segments[0];
             iterator = 1;
@@ -158,11 +159,15 @@ require = function (global) {
             }
 
             root = result.match(rootPattern)[1];
+            temp = result.substr(root.length);
+            
+            do {
+                temp = result;
+                result = temp.replace(parentsPattern, '');
+            } while (temp !== result);
 
-            return root.concat(
-                result.substr(root.length)
-                    .replace(parentsPattern, '')
-                ).replace(currentPattern, '');
+            return root.concat(result.substr(root.length))
+                .replace(currentPattern, '');
         };
 
         isSegment = function isSegment(segment) {
@@ -369,7 +374,6 @@ require = function (global) {
         prototype.require = function require(dependencies, define) {
             var instance,
                 type,
-                argsLength,
                 dependencyList,
                 iterator,
                 length,
@@ -377,37 +381,23 @@ require = function (global) {
                 dependency;
 
             instance = this;
-            argsLength = arguments.length;
             type = typeof dependencies;
             
-            if (!argsLength) {
-                dependencyList = [];
-                instance.define = noop;
-            } else if (argsLength === 2) {
-                if (type === 'string') {
-                    dependencyList = [dependencies];
-                } else if (dependencies instanceof Array) {
-                    dependencyList = dependencies;
-                }
+            dependencyList = [];
+            instance.define = noop;
                 
+            if (typeof define === 'function') {
                 instance.define = define;
-            } else if (argsLength === 1) {
-                if (type === 'string') {
-                    dependencyList = [dependencies];
-                    instance.define = noop;
-                } else if (type === 'function') {
-                    dependencyList = [];
-                    instance.define = define;
-                } else if (dependencies instanceof Array) {
-                    dependencyList = dependencies;
-                    instance.define = noop;
-                }
             }
-
-            if (typeof instance.define !== 'function') {
-                throw new Error('Unable to internally name a module');
+            
+            if (type === 'string') {
+                dependencyList.push(dependencies);
+            } else if (dependencies instanceof Array) {
+                dependencyList = dependencies;
+            } else if (type === 'function') {
+                instance.define = dependencies;
             }
-
+            
             instance.status = Module.DEPENDENCIES_LOADING;
 
             if (!dependencyList.length) {

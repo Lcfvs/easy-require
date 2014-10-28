@@ -8,9 +8,9 @@ This module loader is under MIT License.
 Why another module loader ?
 ---------------------------
 
-Many loaders exist today but nothing that works like the way I'd like it to...
+Many loaders exist today but nothing works like the way I'd like to...
 
-Some are really too heavy, others, lighter, doesn't have the features I was looking for such as :
+Some are really too heavy, others, lighter, it doesn't have the features I was looking for such as :
 - an intelligent system to load my modules minified (production mode) or not (development mode)
 - an ability to load some cross-domain modules (on d/recent browsers)
 

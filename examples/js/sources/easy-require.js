@@ -379,8 +379,11 @@ require = function (global) {
             instance = this;
             argsLength = arguments.length;
             type = typeof dependencies;
-
-            if (argsLength === 2) {
+            
+            if (!argsLength) {
+                dependencyList = [];
+                instance.define = noop;
+            } else if (argsLength === 2) {
                 if (type === 'string') {
                     dependencyList = [dependencies];
                 } else if (dependencies instanceof Array) {

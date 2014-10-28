@@ -66,6 +66,35 @@ require(
         module.exports = {};
     }
 );
+
+// or 
+
+require(
+    ['dependency0', 'dependency1', '...']
+);
+
+// or 
+
+require(
+    function () {
+        // your module definition here
+        module.exports = {};
+    }
+);
+
+// or 
+
+require(
+    'dependency',
+    function (dependency) {
+        // your module definition here
+        module.exports = {};
+    }
+);
+
+// or 
+
+require('dependency');
 ```
 
 

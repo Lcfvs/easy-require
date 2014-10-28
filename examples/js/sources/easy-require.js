@@ -368,20 +368,46 @@ require = function (global) {
 
         prototype.require = function require(dependencies, define) {
             var instance,
+                type,
+                argsLength,
+                dependencyList,
                 iterator,
                 length,
                 url,
                 dependency;
 
             instance = this;
+            argsLength = arguments.length;
+            type = typeof dependencies;
 
-            instance.define = typeof define === 'function'
-                ? define
-                : noop;
+            if (argsLength === 2) {
+                if (type === 'string') {
+                    dependencyList = [dependencies];
+                } else if (dependencies instanceof Array) {
+                    dependencyList = dependencies;
+                }
+                
+                instance.define = define;
+            } else if (argsLength === 1) {
+                if (type === 'string') {
+                    dependencyList = [dependencies];
+                    instance.define = noop;
+                } else if (type === 'function') {
+                    dependencyList = [];
+                    instance.define = define;
+                } else if (dependencies instanceof Array) {
+                    dependencyList = dependencies;
+                    instance.define = noop;
+                }
+            }
+
+            if (typeof instance.define !== 'function') {
+                throw new Error('Unable to internally name a module');
+            }
 
             instance.status = Module.DEPENDENCIES_LOADING;
 
-            if (!dependencies.length) {
+            if (!dependencyList.length) {
                 instance.status = Module.DEPENDENCIES_LOADED;
                 instance.define.call({});
                 instance.exports = instance.module.exports;
@@ -393,10 +419,10 @@ require = function (global) {
             iterator = 0;
 
             instance.remainingDependencies =
-            length = dependencies.length;
+            length = dependencyList.length;
 
             for (; iterator < length; iterator += 1) {
-                url = dependencies[iterator];
+                url = dependencyList[iterator];
                 dependency = Module.loadInstance(instance, url);
                 instance.dependencies.push(dependency);
             }
@@ -428,10 +454,7 @@ require = function (global) {
             }
 
             instance.status = Module.DEPENDENCIES_LOADED;
-            
-            typeof instance.define === 'function'
-            && instance.define.apply({}, args);
-            
+            instance.define.apply({}, args);
             instance.status = Module.MODULE_DEFINED;
             instance.dispatch();
         };

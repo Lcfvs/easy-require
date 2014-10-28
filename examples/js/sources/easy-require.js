@@ -72,7 +72,7 @@ require = function (global) {
         trailings3Pattern = /(\/)+$/;
         rootPattern = /^((?:[^:]+:)?\/\/[^/]+)(.*)/;
         parentsPattern = /((?:\/[^/\.]+)?\/\.\.)/;
-        currentPattern = /\/\./g;
+        currentPattern = /(.*)\/\.(\/|$)/g;
 
         resolve = function resolve() {
             var segments;
@@ -159,15 +159,18 @@ require = function (global) {
             }
 
             root = result.match(rootPattern)[1];
-            temp = result.substr(root.length);
-            
+
+            result = result.substr(root.length);
+
             do {
                 temp = result;
-                result = temp.replace(parentsPattern, '');
+
+                result = temp
+                    .replace(currentPattern, '$1$2')
+                    .replace(parentsPattern, '');
             } while (temp !== result);
 
-            return root.concat(result.substr(root.length))
-                .replace(currentPattern, '');
+            return root.concat(result);
         };
 
         isSegment = function isSegment(segment) {
@@ -382,14 +385,14 @@ require = function (global) {
 
             instance = this;
             type = typeof dependencies;
-            
+
             dependencyList = [];
             instance.define = noop;
-                
+
             if (typeof define === 'function') {
                 instance.define = define;
             }
-            
+
             if (type === 'string') {
                 dependencyList.push(dependencies);
             } else if (dependencies instanceof Array) {
@@ -397,7 +400,7 @@ require = function (global) {
             } else if (type === 'function') {
                 instance.define = dependencies;
             }
-            
+
             instance.status = Module.DEPENDENCIES_LOADING;
 
             if (!dependencyList.length) {
@@ -420,7 +423,7 @@ require = function (global) {
                 instance.dependencies.push(dependency);
             }
         };
-        
+
         prototype.require.plugins = [];
 
         prototype.ondependency = function ondependency() {
@@ -677,7 +680,7 @@ require = function (global) {
         deferred = instance.require.bind(instance, dependencies, define);
         setTimeout(deferred);
     };
-    
+
     require.plugins = Module.prototype.require.plugins;
 
     return require;

@@ -89,9 +89,7 @@ require(
 
 // or (for example, for polyfills, with multi dependencies)
 
-require(
-    ['dependency0', 'dependency1', '...']
-);
+require(['dependency0', 'dependency1', '...']);
 
 // or (for example, for polyfills, with one dependency)
 

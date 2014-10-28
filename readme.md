@@ -59,6 +59,7 @@ Usage :
 -------
 
 ```JavaScript
+// (for example, for a module definition with multi dependencies)
 require(
     ['dependency0', 'dependency1', '...'],
     function (dependency0, dependency1 /*, ...*/) {
@@ -67,13 +68,7 @@ require(
     }
 );
 
-// or 
-
-require(
-    ['dependency0', 'dependency1', '...']
-);
-
-// or 
+// or (for example, for a module definition without dependencies)
 
 require(
     function () {
@@ -82,7 +77,7 @@ require(
     }
 );
 
-// or 
+// or (for example, for a module definition with only one dependency)
 
 require(
     'dependency',
@@ -92,9 +87,19 @@ require(
     }
 );
 
-// or 
+// or (for example, for polyfills, with multi dependencies)
+
+require(
+    ['dependency0', 'dependency1', '...']
+);
+
+// or (for example, for polyfills, with one dependency)
 
 require('dependency');
+
+// or (for example, for polyfills, without dependencies)
+
+require();
 ```
 
 
